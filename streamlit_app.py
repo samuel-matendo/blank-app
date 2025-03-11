@@ -1,25 +1,14 @@
+# streamlit_app.py 
+
 import streamlit as st
-from pages.page_1 import func_page_1
-from pages.page_2 import func_page_2
 
-def main():
-    st.sidebar.subheader('Page selection')
-    page_selection = st.sidebar.selectbox('Please select a page',['Main Page',
-    'Page 1','Page 2'])
-    pages_main = {
-        'Main Page': main_page,
-        'Page 1': run_page_1,
-        'Page 2': run_page_2
-    }
+# Establish Snowflake connection
+conn = st.connection("snowflake")
 
-    # Run selected page
-    pages_main[page_selection]()
+# Query from the correct database and table
+df = conn.query("SELECT * FROM PETS.PUBLIC.YOUR_TABLE_NAME;", ttl="10m")  # Replace with actual table name
 
-def main_page():
-    st.title('Main Page')
-def run_page_1():
-    func_page_1()
-def run_page_2():
-    func_page_2()
-if __name__ == '__main__':
-    main()
+# Display results
+st.write("Pets Data:")
+for row in df.itertuples():
+    st.write(f"{row.NAME} has a :{row.PET}:")  # Ensure column names match your actual table
