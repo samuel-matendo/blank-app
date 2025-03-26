@@ -6,7 +6,7 @@ import streamlit as st
 conn = st.connection("snowflake")
 
 # Query from the correct database and table
-df = conn.query("SELECT * FROM PETS.PUBLIC.YOUR_TABLE_NAME;", ttl="10m")  # Replace with actual table name
+df = conn.query("SELECT * FROM PETS.PUBLIC.MYTABLE", ttl="10m")  # Replace with actual table name
 
 # Display results
 st.write("Pets Data:")
